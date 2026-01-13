@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+
+    <h4 class="mb-3">💰 Match Fee – Payment Details</h4>
+
+    <!-- Match Info -->
+    <div class="mb-3">
+      <p><b>Match:</b> {{ availability.title }}</p>
+      <p><b>Date:</b> {{ availability.match_date }}</p>
+      <p><b>Venue:</b> {{ availability.venue }}</p>
+    </div>
+
+    <hr>
+
+    <!-- Payment Table -->
+    <h5 class="mb-3">Player Payment Status</h5>
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>Player Name</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for row in payments %}
+          <tr>
+            <td class="text-start">{{ row.player_name }}</td>
+            <td>₹{{ row.amount }}</td>
+            <td>
+              {% if row.payment_status == "paid" %}
+                <span class="badge bg-success">Paid</span>
+              {% else %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- Total -->
+    <h5 class="text-success">
+      ✅ Total Collected Amount: ₹{{ approved_total }}
+    </h5>
+
+    <!-- Export -->
+    <div class="mt-3 d-flex gap-2">
+      <a href="{{ url_for('payments.export_payment_csv', availability_id=availability.id) }}"
+         class="btn btn-outline-primary">
+        📥 Download CSV
+      </a>
+
+      <a href="{{ url_for('payments.export_payment_pdf', availability_id=availability.id) }}"
+         class="btn btn-outline-danger">
+        📄 Download PDF
+      </a>
+    </div>
+
+    <p class="text-muted small mt-3">
+      ℹ️ Downloads include only <b>approved (paid)</b> transactions.
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}

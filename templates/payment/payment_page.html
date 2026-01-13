@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+
+    <h4 class="mb-3">💰 Match Fee Payment</h4>
+
+    <p><b>Match:</b> {{ availability.title }}</p>
+    <p><b>Date:</b> {{ availability.match_date }}</p>
+    <p><b>Venue:</b> {{ availability.venue }}</p>
+
+    <hr>
+
+    <h5 class="text-success mb-3">
+      Amount to Pay: ₹{{ availability.amount }}
+    </h5>
+
+    <form method="POST"
+          action="{{ url_for('payments.submit_payment', availability_id=availability.id) }}">
+
+      <label class="form-label">UPI Transaction ID</label>
+      <input type="text"
+             name="transaction_id"
+             class="form-control"
+             placeholder="Ex: 324981239812"
+             required>
+
+      <button type="submit" class="btn btn-success w-100 mt-3">
+        ✅ Submit Payment
+      </button>
+    </form>
+
+    <p class="text-muted small mt-3">
+      ℹ️ Enter your UPI Transaction ID after payment.  
+      Coach approval required.
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}

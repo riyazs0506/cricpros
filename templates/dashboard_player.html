@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-4">Player Dashboard</h3>
+
+<div class="row">
+
+  <!-- LEFT : PROFILE -->
+  <div class="col-md-4 mb-3">
+    <div class="card shadow-sm p-3">
+      <h5>{{ player.user.username }}</h5>
+      <p class="text-muted mb-1">{{ player.role_in_team or "Role not set" }}</p>
+
+      <p class="small">
+        Age: {{ player.age or "-" }} <br>
+        Batch: {{ player.batch.name if player.batch else "-" }}
+      </p>
+
+      <a href="{{ url_for('player_profile') }}" class="btn btn-primary btn-sm w-100 mt-2">
+        View Profile
+      </a>
+
+      <a href="{{ url_for('player_edit_profile') }}" class="btn btn-outline-secondary btn-sm w-100 mt-2">
+        Edit Profile
+      </a>
+
+      <a class="btn btn-outline-primary btn-sm w-100 mt-2"
+         href="{{ url_for('list_players') }}">
+        View All Players
+      </a>
+
+      <!-- CHAT -->
+      <a href="{{ url_for('chat_list') }}" class="btn btn-outline-primary btn-sm w-100 mt-2">
+        💬 Messages
+        {% if unread_messages > 0 %}
+          <span class="badge bg-danger">{{ unread_messages }}</span>
+        {% endif %}
+      </a>
+
+      <a href="{{ url_for('notifications_page') }}" class="btn btn-outline-dark">
+      🔔 Notifications
+    </a>
+
+    </div>
+
+    <!-- ATTENDANCE -->
+<div class="card shadow-sm p-3 mt-3">
+  <h6>Today's Attendance</h6>
+
+  {% if attendance_today %}
+    <p class="mb-1">
+      <small class="text-muted">
+        📅 {{ attendance_today.date.strftime("%A, %d %B %Y") }}
+      </small>
+    </p>
+
+    <p class="mb-0">
+      Status:
+      {% if attendance_today.status == "present" %}
+        <span class="badge bg-success">Present</span>
+      {% elif attendance_today.status == "absent" %}
+        <span class="badge bg-danger">Absent</span>
+      {% else %}
+        <span class="badge bg-warning text-dark">{{ attendance_today.status|capitalize }}</span>
+      {% endif %}
+    </p>
+  {% else %}
+    <p class="text-muted mb-0">
+      📅 {{ today.strftime("%A, %d %B %Y") }}<br>
+      Attendance not marked
+    </p>
+  {% endif %}
+</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="col-md-8">
+
+    <!-- UPCOMING MATCHES -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5>Upcoming Matches</h5>
+
+      {% if upcoming_matches %}
+        <ul class="list-group">
+          {% for m in upcoming_matches %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ m.title }}</strong><br>
+                <small>{{ m.match_date }} | {{ m.venue }}</small>
+              </div>
+
+              <!-- ✅ PAYMENT LINK (FIXED) -->
+              {% if m.payment_enabled %}
+                <a href="{{ url_for('payments.payment_page', availability_id=m.availability_id) }}"
+                   class="btn btn-sm btn-success">
+                  💳 Pay Fee
+                </a>
+              {% else %}
+                <span class="badge bg-secondary">Payment not enabled</span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">No upcoming matches</p>
+      {% endif %}
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    {% if notifications %}
+    <div class="card mb-3">
+        <div class="card-header">
+            🔔 Notifications
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for n in notifications %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>{{ n.message }}</span>
+                <a href="{{ url_for('open_notification', notification_id=n.id) }}"
+                  class="btn btn-sm btn-outline-primary">
+                  View
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

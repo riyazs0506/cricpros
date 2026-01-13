@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-4">Coach Dashboard</h3>
+
+<div class="row">
+
+  <!-- LEFT COLUMN -->
+  <div class="col-md-4 mb-3">
+
+    <!-- QUICK ACTIONS -->
+<div class="card shadow-sm mb-3">
+  <div class="card-header fw-semibold">
+    ⚡ Quick Actions
+  </div>
+
+  <div class="card-body">
+    <div class="row g-2">
+
+      <div class="col-12">
+        <a href="{{ url_for('attendance') }}" class="btn btn-success w-100">
+          📋 Mark Attendance
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('coach_create_match') }}" class="btn btn-primary w-100">
+          🏏 Create Live / Manual Match
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('manual_match_create') }}" class="btn btn-outline-dark w-100">
+          ✍️ Manual Match Only
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('pre_match_create') }}" class="btn btn-warning w-100">
+          📢 Pre-Match Availability
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('match_list') }}" class="btn btn-outline-secondary w-100">
+          📅 All Matches
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('coach_player_list') }}" class="btn btn-outline-secondary w-100">
+          👥 Players
+        </a>
+      </div>
+
+      <div class="col-12">
+        <a href="{{ url_for('chat_list') }}" class="btn btn-outline-primary w-100">
+          💬 Messages
+        </a>
+      </div>
+
+      <div class="col-12">
+     <a href="{{ url_for('jogging.start_jogging') }}" class="btn btn-success">
+  🏃 Start Jogging
+</a>
+
+<a href="{{ url_for('jogging.jogging_history_coach') }}" class="btn btn-outline-primary">
+  Coach Jogging History
+</a>
+</div>
+
+      <div class="col-12">
+        <a href="{{ url_for('payments.payment_match_list') }}"
+           class="btn btn-success w-100">
+          💰 Match Payments
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <!-- MATCH PAYMENTS -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5 class="mb-2">💰 Match Payments</h5>
+
+      {% if latest_pre_match_session %}
+      <a href="{{ url_for('payments.payment_history_coach') }}">
+          View Payment Status
+        </a>
+      {% else %}
+        <p class="text-muted small mb-0">No active payment sessions</p>
+      {% endif %}
+    </div>
+
+
+    <div class="card shadow-sm p-3">
+      <a href="{{ url_for('notifications_page') }}" class="btn btn-outline-dark">
+      🔔 Notifications
+    </a>
+    </div>
+
+    <!-- ATTENDANCE SUMMARY -->
+    <div class="card shadow-sm p-3">
+      <h6>Today's Attendance</h6>
+      <p class="text-success fw-bold mb-1">Present: {{ attendance_present }}</p>
+      <p class="text-danger fw-bold mb-0">Absent: {{ attendance_absent }}</p>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="col-md-8">
+
+    <!-- LATEST PRE-MATCH -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5>Latest Pre-Match Availability</h5>
+
+      {% if latest_pre_match_session %}
+        <p class="mb-1">
+          <strong>{{ latest_pre_match_session.title }}</strong><br>
+          <small>
+            {{ latest_pre_match_session.match_date }} |
+            {{ latest_pre_match_session.venue }}
+          </small>
+        </p>
+
+        <a href="{{ url_for('availability_summary', availability_id=latest_pre_match_session.id) }}"
+           class="btn btn-outline-primary btn-sm mt-2">
+          View Summary
+        </a>
+
+        <a href="{{ url_for('coach_pre_match_list') }}"
+           class="btn btn-link btn-sm mt-2">
+          View All Sessions →
+        </a>
+      {% else %}
+        <p class="text-muted">No pre-match availability created yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- LIVE MATCHES -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5>Live Matches</h5>
+
+      {% for m in live_matches %}
+        <a href="{{ url_for('scoring_panel', match_id=m.id) }}"
+           class="btn btn-outline-success btn-sm mb-1">
+          {{ m.title }}
+        </a>
+      {% else %}
+        <p class="text-muted">No live matches</p>
+      {% endfor %}
+    </div>
+
+    <!-- MANUAL MATCHES -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5>Manual Matches</h5>
+
+      {% for m in manual_matches %}
+        <a href="{{ url_for('manual_scoring', match_id=m.id) }}"
+           class="btn btn-outline-dark btn-sm mb-1">
+          {{ m.title }}
+        </a>
+      {% else %}
+        <p class="text-muted">No manual matches</p>
+      {% endfor %}
+    </div>
+
+    <!-- PLAYER APPROVAL -->
+    <div class="card shadow-sm p-3 mb-3">
+      <h5>Players Pending Approval</h5>
+
+      {% if pending_players %}
+        <ul class="list-group">
+          {% for p in pending_players %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ p.user.username }}
+              <a href="{{ url_for('approve_player', id=p.id) }}"
+                 class="btn btn-success btn-sm">
+                Approve
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">No pending players</p>
+      {% endif %}
+    </div>
+
+    <!-- NOTIFICATIONS -->
+      {% if notifications %}
+      <div class="card shadow-sm">
+        <div class="card-header fw-semibold">
+          Notifications
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for n in notifications %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="{% if not n.is_read %}fw-bold{% endif %}">
+              {{ n.message }}
+            </span>
+            <a href="{{ url_for('open_notification', notification_id=n.id) }}"
+               class="btn btn-sm btn-outline-primary">
+              Open
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

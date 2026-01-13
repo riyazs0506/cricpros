@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h4>🏃 Jogging History ({{ role|capitalize }})</h4>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Distance (km)</th>
+            <th>Time (min)</th>
+            <th>Speed</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in runs %}
+        <tr>
+            <td>{{ r.created_at.strftime("%d-%m-%Y %H:%M") }}</td>
+            <td>{{ r.distance_km }}</td>
+            <td>{{ r.duration_min }}</td>
+            <td>{{ r.avg_speed }}</td>
+            <td>{{ r.calories }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+
+    <h4 class="mb-3">💰 Match Fee List</h4>
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>Match Title</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for m in matches %}
+          <tr>
+            <td class="text-start">{{ m.title }}</td>
+            <td>{{ m.match_date }}</td>
+            <td>₹{{ m.amount }}</td>
+            <td>
+              <a href="{{ url_for('payments.payment_match_detail', availability_id=m.id) }}"
+                 class="btn btn-sm btn-outline-primary">
+                View Details
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-3">🔔 Notifications</h3>
+
+    {% if notifications %}
+        {% for n in notifications %}
+            <div class="alert d-flex justify-content-between align-items-start
+                {% if n.is_read %}
+                    alert-secondary
+                {% else %}
+                    alert-info
+                {% endif %}
+            ">
+                <div>
+                    <p class="mb-1">
+                        {{ n.message }}
+                    </p>
+                    <small class="text-muted">
+                        {{ n.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                    </small>
+                </div>
+
+                {% if n.link %}
+                    <a href="{{ url_for('open_notification', notification_id=n.id) }}"
+                       class="btn btn-sm btn-outline-primary">
+                        View
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-light text-center">
+            No notifications available
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

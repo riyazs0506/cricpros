@@ -1,0 +1,319 @@
+/* =====================================================
+   CRICPRO — PROFESSIONAL RESPONSIVE UI (FINAL)
+   Desktop + Mobile | Clean | Powerful
+===================================================== */
+
+/* ---------- ROOT VARIABLES ---------- */
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+
+  --primary: #2563eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+
+  --radius: 14px;
+  --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+/* ---------- RESET ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ---------- CONTAINER ---------- */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px;
+}
+
+/* ---------- HEADINGS ---------- */
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-danger  { background: var(--danger);  color: #fff; }
+.btn-warning { background: var(--warning); color: #fff; }
+
+.btn-outline-primary {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+/* ---------- LINKS ---------- */
+a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ---------- GRID (DASHBOARD AUTO) ---------- */
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.col-md-4 {
+  flex: 1 1 320px;
+}
+
+.col-md-8 {
+  flex: 2 1 600px;
+}
+
+/* ---------- LIST GROUP ---------- */
+.list-group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-group-item {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------- BADGES ---------- */
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.bg-warning { background: #fde68a; color: #92400e; }
+.bg-success { background: #bbf7d0; color: #065f46; }
+.bg-danger  { background: #fecaca; color: #7f1d1d; }
+
+/* ---------- TABLES ---------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+/* ---------- FORMS ---------- */
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+/* ---------- DASHBOARD STATS ---------- */
+.dashboard-stat {
+  text-align: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.dashboard-stat h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.dashboard-stat p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- CHAT ---------- */
+.chat-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+}
+
+.msg {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+
+.sent {
+  background: #dcfce7;
+  margin-left: auto;
+}
+
+.recv {
+  background: #e5e7eb;
+}
+
+/* ---------- SCORE / WAGON ---------- */
+.score-num {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+#wagonCanvas,
+#wagonWheel {
+  background: #fff;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+}
+
+/* =====================================================
+   📱 MOBILE RESPONSIVE
+===================================================== */
+@media (max-width: 768px) {
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-4,
+  .col-md-8 {
+    flex: 1 1 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .dashboard-stat h3 {
+    font-size: 1.6rem;
+  }
+
+  .chat-container {
+    height: 85vh;
+  }
+}
+
+
+.chat-list a {
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+
+.chat-list a:hover {
+    background: #f1f5ff;
+}
+
+.chat-list a {
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+
+.chat-list a:hover {
+    background-color: #f5f7fb;
+}
+
+/* ===============================
+   FIX NUTRITION INPUT OVERLAY
+=============================== */
+/* ===== FIX NUTRITION INPUT CLICK ISSUE ===== */
+
+.nutrition-input,
+input,
+select,
+textarea,
+button {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+}
+
+.table-responsive,
+.table,
+.card,
+.container,
+form {
+  pointer-events: auto !important;
+}
+
+.table-responsive * {
+  pointer-events: auto !important;
+}
